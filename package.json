@@ -13,6 +13,8 @@
     "tme": "index.js"
   },
   "dependencies": {
+    "chalk": "^3.0.0",
+    "jsdom": "^19.0.0",
     "node": "^17.3.0"
   }
 }
