@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
+const render = require('./render')
 
 const forbiddenDirs = [];
 
@@ -14,15 +15,16 @@ class Runner {
             console.log(chalk.yellow(`running tests on - ${file.shortName} - `))
 
             const beforeEaches = [];
+            global.render = render;
             global.beforeEach = (fn) => {
                 beforeEaches.push(fn)
             }
-            global.it = (desc, fn) => {
+            global.it = async (desc, fn) => {
                 beforeEaches.forEach(func => func());
                 console.log('----- ', desc);
 
                 try {
-                    fn();
+                    await fn();
                     console.log(chalk.green(`\t OK - test ${desc} succeeded`));
                 } catch (error) {
                     const message = err.message.replace(/\n/g, '\n\t\t')
